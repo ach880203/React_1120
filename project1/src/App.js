@@ -5,10 +5,11 @@ import Viewer from "./component/Viewer";
 
 function App() {
 
-  const [count, setCount] = useState(100);  
+  const [count, setCount] = useState(0);  
   
+
   const handleSetCount = (value) => {
-    setCount(count + value);
+    setCount(count+ value);
   }
 
   return (
