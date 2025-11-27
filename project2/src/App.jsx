@@ -29,11 +29,22 @@ function App() {
 
   const [todo, setTodo] = useState([mockTodo]);
 
+  // 데이터 추가하기
+  const onCreate = (content) => {
+    const newItem = {
+      id: 0,
+      isDone: false,
+      content,
+      createDate: new Date().getTime(),
+    }
+    setTodo([newItem, ...todo]);
+  };
 
+  
   return (
     <div className="App">
       <Header />
-      <TodoEditor />
+      <TodoEditor onCreate = {onCreate}/>
       <TodoList />
     </div>
   );
