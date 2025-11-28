@@ -1,9 +1,8 @@
-import { useRef, useState } from "react";
+import { useReducer, useRef, useState } from "react";
 import "./App.css";
 import Header from "./component/Header";
 import TodoEditor from "./component/TodoEditor";
 import TodoList from "./component/TodoList";
-import TestComp from "./component/TestComp";
 
 
 const mockTodo = [
@@ -27,60 +26,64 @@ const mockTodo = [
   },
 ]
 
+ function reducer(state, action){
 
+  switch(action.type){
+    case "CREATE" : 
+      return[...state, action.newItem ];
+    case "UPDATE" : 
+      return state.map( (it)=> it.id === action.id ? {...it, isDone: !it.isDone} : it)
+    case "DELETE" :
+       return state.filter(it => it.id !== action.id); 
+        
+      default:
+        return state;
+ }
+}
 
+ function App() {
 
-function App() {
-  const [todo, setTodo] = useState(mockTodo);
+  const [todo, dispatch] = useReducer(reducer, mockTodo);
   const idRef = useRef(3);
 
   // 데이터 추가하기
   const onCreate = (content) => {
-    const newItem = {
-      id: idRef.current,
-      isDone: false,
-      content,
-      createDate: new Date().getTime(),
-    }
-    setTodo([...todo, newItem]);
+      dispatch({
+        type: "CREATE",
+        newItem: {
+          id: idRef.current,
+          content,
+          isDone: false,
+          createDate: new Date().getTime()
+        }
+      })
     idRef.current += 1;
   };
 
     //데이터 수정하기
     const onUpdate = (targetId) => {
-        setTodo(
-        todo.map(
-   //(it) => it.id === targetId ? {...it, isDone: !it.isDone} : it
-   // 위에 처럼도 쓸 수 있다.  
-        (it) =>{
-          if(it.id === targetId)
-            return {...it, isDone: !it.isDone}
-          else
-            return it;
-          
-        }
-        )
-      )
+      dispatch({
+        type: "UPDATE",
+        id  : targetId
+      })
     };
 
     //삭제하기
     const onDelete = (targetId) => {
-      setTodo(
-        todo.filter((it) => it.id !== targetId)
-      )
+      dispatch({
+      type: "DELETE",
+      id  : targetId
+      })
     };
 
 
   return (
     <div className="App">
-
-      <TestComp />
-
       <Header />
       <TodoEditor onCreate = {onCreate} />
       <TodoList todo = {todo} onUpdate = {onUpdate} onDelete={onDelete}/>
     </div>
-  );
-}
+  )
+  }
 
 export default App;
