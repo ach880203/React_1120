@@ -1,14 +1,10 @@
-import React from 'react';
-import  { useSearchParams } from 'react-router-dom';
+import Editor from "../component/Editor.js";
 
 const Home = () => {
-    const [SearchParams, setSerchParams] = useSearchParams();
-    console.log(SearchParams.get("sort"));
-    console.log(SearchParams.get("sort"));
     return (
-        <div>
-            Home Page
-        </div>
+    <div>
+        <Editor />
+    </div>
     );
 };
 
