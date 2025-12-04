@@ -3,7 +3,8 @@ import Editor from "../component/Editor.js";
 const Home = () => {
     return (
     <div>
-        <Editor />
+        <Editor onSubmit=
+            {(state) => alert(state.content)} />
     </div>
     );
 };
