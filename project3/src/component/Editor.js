@@ -54,7 +54,7 @@ const Editor = ({ initData, onSubmit }) => {
 
       <div className="editor_section">
         <h4>오늘의 감정</h4>
-        <div className ="input_wrapper .emotin_list_wrapper">
+        <div className ="input_wrapper emotin_list_wrapper">
           {emotionList.map(
             (it) => <EmotionItem
                 key={it.id}
